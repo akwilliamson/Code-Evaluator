@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+	<head>
+		<title>jQuery</title>
+		<meta charset="utf-8" />
+		<meta http-equiv="Content-type" content="text/html; carset=utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<script type="text/javascript" src="jquery.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="styles.css">
+	</head>
+
+	<body>
+
+		<div id="wrapper">
+			<div id="menuBar">
+				<div id="logo">
+					Code Player
+				</div>
+				<div id="buttonDiv">
+					<button id="runButton">Run</button>
+				</div>
+				<ul id="toggles">
+					<li class="toggle selected" id="liHTML">HTML</li>
+					<li class="toggle" id="liCSS">CSS</li>
+					<li class="toggle" id="liJS">JS</li>
+					<li class="toggle selected" id="liNoBorder">Result</li>
+				</ul>
+			</div>
+
+			<div class="clearFloats"></div>
+
+			<div class="codeContainer" id="htmlContainer">
+				<div class="codeLabel">HTML</div>
+				<textarea id="htmlCode">Example Code</textarea>
+			</div>
+			<div class="codeContainer" id="cssContainer">
+				<div class="codeLabel">CSS</div>
+				<textarea id="cssCode">html { background-color: blue }</textarea>
+			</div>
+			<div class="codeContainer" id="jsContainer">
+				<div class="codeLabel">JS</div>
+				<textarea id="jsCode">alert("hello");</textarea>
+			</div>
+			<div class="codeContainer" id="resultContainer">
+				<div class="codeLabel">Result</div>
+				<iframe id="resultFrame"></iframe>
+			</div>
+		</div>
+
+	<script> 
+		var windowHeight = $(window).height();
+		var menuBarHeight = $("#menuBar").height();
+		var codeContainerHeight = windowHeight - menuBarHeight;
+		$(".codeContainer").height(codeContainerHeight+"px");
+
+		$(".toggle").click(function(){
+			$(this).toggleClass("selected");
+			
+			var container = "#" + $(this).text().toLowerCase() + "Container";
+			$(container).toggle();
+
+			var showingDivs = $(".codeContainer").filter(function(){
+				return($(this).css("display") != "none");
+			}).length;
+
+			var width = 100/showingDivs;
+
+			$(".codeContainer").width(width+"%");
+		});
+
+		$("#runButton").click(function(){
+			$("iframe").contents().find("html").html('<style>'+$("#cssCode").val()+'</style>'+$("#htmlCode").val());
+
+			// eval method commented out below, only used locally for practice
+			// document.getElementById("resultFrame").contentWindow.eval($("#jsCode").val());
+		});
+
+	</script>
+	</body>
+</html>
+
+
+
+
+
+
+
+
